@@ -1,5 +1,6 @@
 package com.tu00128.taskmgmt.config;
 
+import com.tu00128.taskmgmt.config.AuthTokenFilter;
 import com.tu00128.taskmgmt.service.impl.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -44,19 +45,24 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-                        // Public endpoints - không cần đăng nhập
                         .requestMatchers(
                                 "/api/auth/**",
-                                "/test/**"
+                                "/test/**",
+                                // Swagger paths
+                                "/swagger-ui/**",
+                                "/swagger-ui.html",
+                                "/v3/api-docs/**",
+                                "/v3/api-docs",
+                                "/api-docs/**",
+                                "/api-docs",
+                                "/webjars/**",
+                                "/swagger-resources/**",
+                                "/configuration/ui",
+                                "/configuration/security"
                         ).permitAll()
-
-                        // Chỉ MANAGER mới được tạo/sửa/xóa project
                         .requestMatchers("/api/projects/**").hasRole("MANAGER")
-
-                        // Các endpoints khác cần đăng nhập
                         .anyRequest().authenticated()
                 );
-
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
