@@ -1,45 +1,34 @@
-# IKUS_ThucTap
+IKUS_ThucTap
 
-REVIEW QUAN HỆ + GIẢI THÍCH:
-+ Quan hệ giữa Project và Task là quan hệ một – nhiều (1–N).
+Đây là dự án backend quản lý công việc được xây dựng bằng Spring Boot, cung cấp các RESTful API phục vụ cho việc quản lý dự án, phân công công việc và theo dõi tiến độ thực hiện.
 
-+ Mỗi Project có thể chứa nhiều Task khác nhau. Ngược lại, mỗi Task
-bắt buộc phải thuộc về đúng một Project duy nhất. Điều này được
-thể hiện thông qua khóa ngoại project_id trong bảng Task.
+Chức năng:
+Quản lý tài khoản: Đăng ký, đăng nhập và bảo mật bằng JWT token.
+Phân quyền (Role-based): Sử dụng Spring Security để chia quyền:
+User: chỉ có thể xem và chỉnh sửa task của họ.
+Manager: có thể xem ,chỉnh sửa,tạo mới,xóa tất cả các task.
+Quản lý dự án (Project): CRUD project.
+Quản lý công việc (Task): CRUD task và cập nhật trạng thái (TODO, IN_PROGRESS, DONE).
 
-+ Thiết kế này phù hợp với nghiệp vụ hệ thống, trong đó Task không
-thể tồn tại độc lập mà luôn gắn với một Project cụ thể.
+Ứng dụng sử dụng:
+Code: intellij IDEA
+Database: SQL Server
+TestAPI: Postman
 
-+ Quan hệ giữa User và Task là quan hệ một – nhiều (1–N).
+Stack công nghệ:
+Ngôn ngữ: Java 17
+Framework: Spring Boot 3.x
+Database: SQL Server
+Authentication: Spring Security & JWT
+Document API: Swagger UI
 
-+ Một User có thể được gán nhiều Task khác nhau. Tuy nhiên, một Task
-chỉ được gán cho tối đa một User tại một thời điểm và có thể
-chưa được gán cho User nào. Do đó, khóa ngoại assigned_user_id
-trong bảng Task được cho phép giá trị NULL.
+Hướng dẫn chạy dự án ở máy Local:
+B1 Clone source code về máy.
 
-+ Thiết kế này phản ánh đúng nghiệp vụ phân công công việc của hệ thống.
+B2 Mở SQL Server, đưa file thuctap.sql vào và chạy toàn bộ( creatdatabase -> use -> ctrl+A+chạy)
 
-+ Hệ thống không sử dụng bảng trung gian cho quan hệ User – Task
-hoặc Project – Task vì các quan hệ đều là một – nhiều (1–N).
+B3 Mở file cấu hình src/main/resources/application-dev.properties, sửa lại config kết nối database (username, password) cho khớp với máy của bạn.
 
-+ Việc sử dụng bảng trung gian chỉ cần thiết trong trường hợp
-quan hệ nhiều – nhiều (N–N). Do đó, thiết kế hiện tại giúp
-đơn giản hóa cấu trúc CSDL và tránh dư thừa dữ liệu.
+B4 Sử dụng terminal của app gõ: java -jar target/task-management-0.0.1-SNAPSHOT.jar --spring.profiles.active=dev.
 
-+ Các trạng thái của Project và Task được lưu dưới dạng giá trị
-chuỗi (VARCHAR) trong CSDL và được kiểm soát bằng CHECK constraint
-để đảm bảo chỉ các trạng thái hợp lệ mới được phép lưu trữ.
-+ Ràng buộc khóa ngoại giữa Task và Project đã được kiểm tra
-  thông qua việc insert dữ liệu không hợp lệ.
-  Hệ thống từ chối Task có project_id không tồn tại,
-  chứng minh rằng thiết kế CSDL đảm bảo toàn vẹn tham chiếu.
-
-
-Fix ERD:
-+ Sau khi thực hiện review các quan hệ giữa User, Project và Task,
-+ ERD ban đầu đáp ứng đầy đủ yêu cầu nghiệp vụ của hệ thống.
-
-+ Các thực thể, thuộc tính và quan hệ đã được thiết kế phù hợp,
-không phát sinh dư thừa dữ liệu và đảm bảo chuẩn hóa ở mức 3NF.
-
-=> Do đó, ERD final được giữ nguyên so với ERD đã trình bày ở mục trước.
+B5 Sau khi server start ở port 8080, mở trình duyệt truy cập vào http://localhost:8080/swagger-ui/index.html để xem danh sách API và test trực tiếp.
