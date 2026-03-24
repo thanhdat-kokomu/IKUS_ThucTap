@@ -76,41 +76,41 @@ INSERT INTO projects (name, status) VALUES
 GO
 
 INSERT INTO users (username, email, password, project_id) VALUES 
-('alice_smith', 'alice@company.com', 'pass123', 4),
-('bob_johnson', 'bob@company.com', 'pass123', 4),
-('charlie_brown', 'charlie@company.com', 'pass123', 5),
-('david_miller', 'david@company.com', 'pass123', 5),
-('eve_wilson', 'eve@company.com', 'pass123', 6),
-('frank_white', 'frank@company.com', 'pass123', 6),
-('grace_lee', 'grace@company.com', 'pass123', 7),
-('hannah_kim', 'hannah@company.com', 'pass123', 7),
-('ian_wright', 'ian@company.com', 'pass123', 8),
-('jack_sparrow', 'jack@company.com', 'pass123', 8),
+('alice_smith', 'alice@company.com', 'pass123', 1),
+('bob_johnson', 'bob@company.com', 'pass123', 1),
+('charlie_brown', 'charlie@company.com', 'pass123', 2),
+('david_miller', 'david@company.com', 'pass123', 2),
+('eve_wilson', 'eve@company.com', 'pass123', 3),
+('frank_white', 'frank@company.com', 'pass123', 3),
+('grace_lee', 'grace@company.com', 'pass123', 4),
+('hannah_kim', 'hannah@company.com', 'pass123', 4),
+('ian_wright', 'ian@company.com', 'pass123', 5),
+('jack_sparrow', 'jack@company.com', 'pass123', 5),
 ('kelly_clark', 'kelly@company.com', 'pass123', 1),
 ('liam_neeson', 'liam@company.com', 'pass123', 2);
 GO
 
 INSERT INTO tasks (title, status, project_id, assigned_user_id) VALUES 
-('Setup Database Schema', 'DONE', 4, 4),
-('Implement Login API', 'IN_PROGRESS', 4, 4),
-('Frontend UI Layout', 'TODO', 4, 5),
-('Bug fix: Payment gateway', 'DONE', 4, 5),
-('Design System Architecture', 'IN_PROGRESS', 5, 6),
-('Setup CI/CD Pipeline', 'TODO', 5, 7),
-('Data Collection for AI', 'TODO', 6, 8),
-('Model Training Phase 1', 'TODO', 6, 9),
-('Analyze Legacy Code', 'DONE', 7, 10),
-('Backup S3 Buckets', 'CANCELLED', 7, 11),
-('Employee Benefits Module', 'DONE', 8, 12),
-('Payroll Integration', 'TODO', 8, 13),
-('Unit Testing Suite', 'IN_PROGRESS', 1, 1),
-('API Documentation', 'DONE', 1, 2),
-('Performance Tuning', 'TODO', 2, 3),
+('Setup Database Schema', 'DONE', 1, 1),
+('Implement Login API', 'IN_PROGRESS', 1, 1),
+('Frontend UI Layout', 'TODO', 1, 2),
+('Bug fix: Payment gateway', 'DONE', 1, 2),
+('Design System Architecture', 'IN_PROGRESS', 2, 3),
+('Setup CI/CD Pipeline', 'TODO', 2, 4),
+('Data Collection for AI', 'TODO', 3, 5),
+('Model Training Phase 1', 'TODO', 3, 6),
+('Analyze Legacy Code', 'DONE', 4, 7),
+('Backup S3 Buckets', 'CANCELLED', 4, 8),
+('Employee Benefits Module', 'DONE', 5, 9),
+('Payroll Integration', 'TODO', 5, 10),
+('Unit Testing Suite', 'IN_PROGRESS', 1, 11),
+('API Documentation', 'DONE', 1, 12),
+('Performance Tuning', 'TODO', 2, 1),
 ('Client Meeting Prep', 'TODO', 3, NULL),
-('Security Audit', 'IN_PROGRESS', 4, 5),
-('Refactoring Utils', 'DONE', 5, 6),
-('User Interview', 'TODO', 6, 8),
-('Server Maintenance', 'DONE', 7, 11);
+('Security Audit', 'IN_PROGRESS', 1, 2),
+('Refactoring Utils', 'DONE', 2, 3),
+('User Interview', 'TODO', 3, 5),
+('Server Maintenance', 'DONE', 4, 8);
 GO
 
 INSERT INTO roles (name, description) VALUES 
@@ -130,4 +130,44 @@ SELECT u.id, r.id
 FROM users u, roles r
 WHERE u.username NOT IN ('alice_smith', 'eve_wilson', 'ian_wright')
   AND r.name = 'ROLE_USER';
+GO
+
+SELECT * FROM roles;
+GO
+
+SELECT u.username, r.name as role_name
+FROM users u
+JOIN user_roles ur ON u.id = ur.user_id
+JOIN roles r ON ur.role_id = r.id
+ORDER BY u.username;
+GO
+
+SELECT * FROM users;
+GO
+
+SELECT * FROM projects;
+GO
+
+SELECT * FROM tasks;
+GO
+
+SELECT
+    t.id,
+    t.title,
+    t.status,
+    p.name AS project_name
+FROM tasks t
+JOIN users u ON t.assigned_user_id = u.id
+JOIN projects p ON t.project_id = p.id
+WHERE u.id = 1;
+GO
+
+SELECT
+    id,
+    title,
+    status,
+    project_id,
+    assigned_user_id
+FROM tasks
+WHERE status = 'IN_PROGRESS';
 GO
