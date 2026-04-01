@@ -29,6 +29,6 @@ B2 Mở SQL Server, đưa file thuctap.sql vào và chạy toàn bộ( creatdata
 
 B3 Mở file cấu hình src/main/resources/application-dev.properties, sửa lại config kết nối database (username, password) cho khớp với máy của bạn.
 
-B4 Sử dụng terminal của app gõ: java -jar target/task-management-0.0.1-SNAPSHOT.jar --spring.profiles.active=dev.
+B4 Mở maven chạy clean và package để tạo task-management-0.0.1-SNAPSHOT.jar và sử dụng terminal của app gõ: java -jar target/task-management-0.0.1-SNAPSHOT.jar --spring.profiles.active=dev
 
 B5 Sau khi server start ở port 8080, mở trình duyệt truy cập vào http://localhost:8080/swagger-ui/index.html để xem danh sách API và test trực tiếp.
