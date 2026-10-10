@@ -1,4 +1,4 @@
-IKUS_ThucTap
+IKUS_Task Manager
 
 Đây là dự án backend quản lý công việc được xây dựng bằng Spring Boot, cung cấp các RESTful API phục vụ cho việc quản lý dự án, phân công công việc và theo dõi tiến độ thực hiện.
 
